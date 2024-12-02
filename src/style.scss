@@ -1,0 +1,94 @@
+@use 'styles/abstracts';
+
+.blue-div {
+  background-color: abstracts.$darkblue;
+}
+
+.purple-div {
+  background-color: abstracts.$midpurple;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: abstracts.$font;
+  font-weight: normal;
+}
+
+.display1 {
+  font-size: abstracts.$display1;
+}
+
+.display2 {
+  font-size: abstracts.$display2;
+}
+
+h1 {
+  font-size: abstracts.$heading1;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: abstracts.$heading2;
+}
+
+h3 {
+  font-size: abstracts.$heading3;
+}
+
+h3 {
+  font-size: abstracts.$heading4;
+}
+
+p, li {
+  font-size: abstracts.$paragraph1;
+}
+
+.p2 {
+  font-size: abstracts.$paragraph2;
+}
+
+.p3 {
+  font-size: abstracts.$paragraph3;
+}
+
+input, input::placeholder {
+  font-size: abstracts.$paragraph1;
+}
+
+
+@media(max-width: 600px){
+  .display1 {
+    font-size: abstracts.$displayMob1;
+  }
+
+  .display2 {
+    font-size: abstracts.$displayMob2;
+  }
+
+  h1 {
+    font-size: abstracts.$headingMob1;
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: abstracts.$headingMob2;
+  }
+
+  h3 {
+    font-size: abstracts.$headingMob3;
+  }
+
+  p, li {
+    font-size: abstracts.$paragraphMob1;
+  }
+
+  .p2 {
+    font-size: abstracts.$paragraphMob2;
+  }
+
+  .p3 {
+    font-size: abstracts.$paragraphMob3;
+  }
+}
+
