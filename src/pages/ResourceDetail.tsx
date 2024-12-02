@@ -61,12 +61,15 @@ export default function ResourceDetail() {
       !Array.isArray(value) &&
       key !== 'created' &&
       key !== 'edited' &&
-      key !== 'url'
+      key !== 'url' &&
+      key !== 'homeworld'
   );
 
   const relatedProperties = Object.entries(resource).filter(
-    ([key, value]) => Array.isArray(value) && value.length > 0 && 
-    ['films', 'species', 'vehicles', 'starships', 'pilots', 'residents', 'people', 'characters', 'planets'].includes(key)
+    ([key, value]) => 
+      (Array.isArray(value) && value.length > 0 && 
+      ['films', 'species', 'vehicles', 'starships', 'pilots', 'residents', 'people', 'characters', 'planets'].includes(key)) ||
+      (key === 'homeworld' && value)
   );
 
   return (
@@ -111,21 +114,31 @@ export default function ResourceDetail() {
                     {key.replace('_', ' ')}:
                   </Text>
                   <Group spacing={8}>
-                    {urls.map((url: string, index: number) => {
-                      const parts = url.split('/').filter(Boolean);
-                      const type = parts[parts.length - 2];
-                      const id = parts[parts.length - 1];
-                      return (
-                        <Button 
-                          key={index} 
-                          variant="light" 
-                          size="sm"
-                          onClick={() => handleRelatedClick(url)}
-                        >
-                          {type} #{id}
-                        </Button>
-                      );
-                    })}
+                    {Array.isArray(urls) ? (
+                      urls.map((url: string, index: number) => {
+                        const parts = url.split('/').filter(Boolean);
+                        const type = parts[parts.length - 2];
+                        const id = parts[parts.length - 1];
+                        return (
+                          <Button 
+                            key={index} 
+                            variant="light" 
+                            size="sm"
+                            onClick={() => handleRelatedClick(url)}
+                          >
+                            {type} #{id}
+                          </Button>
+                        );
+                      })
+                    ) : (
+                      <Button 
+                        variant="light" 
+                        size="sm"
+                        onClick={() => handleRelatedClick(urls)}
+                      >
+                        {urls.split('/').filter(Boolean).slice(-2)[0]} #{urls.split('/').filter(Boolean).slice(-1)[0]}
+                      </Button>
+                    )}
                   </Group>
                 </div>
               ))}
