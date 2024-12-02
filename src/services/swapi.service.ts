@@ -4,6 +4,7 @@ export interface SWAPIResource {
   name?: string;
   title?: string;
   url: string;
+  [key: string]: any;
 }
 
 export interface ResourceListResponse {
@@ -13,10 +14,21 @@ export interface ResourceListResponse {
   results: SWAPIResource[];
 }
 
+export interface FilterOption {
+  value: string;
+  label: string;
+}
+
+export interface FilterValue {
+  field: string;
+  value: string;
+}
+
 export const fetchResourceList = async (
   resourceType: string,
   page = 1,
-  search?: string
+  search?: string,
+  filter?: FilterValue
 ): Promise<ResourceListResponse> => {
   const searchParams = new URLSearchParams({
     page: page.toString(),
@@ -27,7 +39,19 @@ export const fetchResourceList = async (
   if (!response.ok) {
     throw new Error('Failed to fetch resource list');
   }
-  return response.json();
+  const data = await response.json();
+
+  // Apply filtering on the client side since SWAPI doesn't support filtering
+  if (filter && filter.field && filter.value) {
+    data.results = data.results.filter((item: any) => {
+      const fieldValue = String(item[filter.field] || '').toLowerCase();
+      const filterValue = filter.value.toLowerCase();
+      return fieldValue.includes(filterValue);
+    });
+    data.count = data.results.length;
+  }
+
+  return data;
 };
 
 export const fetchResourceDetail = async (url: string) => {

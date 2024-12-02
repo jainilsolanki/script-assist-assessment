@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Paper,
   Title,
@@ -9,12 +9,16 @@ import {
   Group,
   Badge,
   Stack,
+  Button,
+  ActionIcon,
 } from '@mantine/core';
+import { IconArrowLeft } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchResourceDetail, enrichResourceWithRelated } from '../services/swapi.service';
 
 export default function ResourceDetail() {
   const { resourceType = 'people', id = '1' } = useParams();
+  const navigate = useNavigate();
 
   const { data: resource, isLoading } = useQuery(
     ['resource', resourceType, id],
@@ -28,10 +32,19 @@ export default function ResourceDetail() {
     }
   );
 
+  const handleBack = () => {
+    navigate(`/${resourceType}`);
+  };
+
   if (isLoading) {
     return (
       <Paper p="md">
-        <Skeleton height={50} mb="xl" />
+        <Group mb="xl">
+          <ActionIcon variant="subtle" onClick={handleBack}>
+            <IconArrowLeft size={18} />
+          </ActionIcon>
+          <Skeleton height={50} sx={{ flex: 1 }} />
+        </Group>
         <Grid>
           <Grid.Col span={6}>
             <Skeleton height={200} />
@@ -45,7 +58,16 @@ export default function ResourceDetail() {
   }
 
   if (!resource) {
-    return <Text>Resource not found</Text>;
+    return (
+      <Paper p="md">
+        <Group mb="xl">
+          <ActionIcon variant="subtle" onClick={handleBack}>
+            <IconArrowLeft size={18} />
+          </ActionIcon>
+          <Text>Resource not found</Text>
+        </Group>
+      </Paper>
+    );
   }
 
   const renderValue = (value: any) => {
@@ -71,9 +93,14 @@ export default function ResourceDetail() {
 
   return (
     <Paper p="md">
-      <Title order={2} mb="xl">
-        {resource.name || resource.title}
-      </Title>
+      <Group mb="xl" align="center">
+        <ActionIcon variant="subtle" onClick={handleBack}>
+          <IconArrowLeft size={18} />
+        </ActionIcon>
+        <Title order={2}>
+          {resource.name || resource.title}
+        </Title>
+      </Group>
 
       <Grid>
         <Grid.Col span={6}>
