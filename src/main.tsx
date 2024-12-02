@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MantineProvider, ColorSchemeProvider } from '@mantine/core';
-import { useState } from 'react';
 import App from './App';
+import { useThemeStore } from './store/theme.store';
 
 const queryClient = new QueryClient();
 
@@ -16,9 +16,7 @@ const router = createBrowserRouter([
 ]);
 
 function Root() {
-  const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
-  const toggleColorScheme = (value?: 'light' | 'dark') =>
-    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+  const { colorScheme, toggleColorScheme } = useThemeStore();
 
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>

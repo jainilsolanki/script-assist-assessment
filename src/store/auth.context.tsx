@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useThemeStore } from './theme.store';
 
 interface User {
   username: string;
@@ -27,6 +28,8 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const resetTheme = useThemeStore((state) => state.resetTheme);
+  
   // Initialize user state from localStorage
   const [user, setUser] = useState<User | null>(() => {
     const savedUser = localStorage.getItem('user');
@@ -51,6 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setUser(null);
+    resetTheme();
   };
 
   const value = {
