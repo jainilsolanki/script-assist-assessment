@@ -8,19 +8,16 @@ import {
   Button,
   Stack,
 } from '@mantine/core';
-import { useAuth } from '../store/auth.context';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     login(username, password);
-    navigate('/people');
   };
 
   return (

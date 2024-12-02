@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import {
   AppShell,
   Navbar,
@@ -9,7 +9,6 @@ import {
   Burger,
   useMantineTheme,
   NavLink,
-  Button,
   UnstyledButton,
   Group,
   Stack,
@@ -18,7 +17,7 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { IconUser, IconSun, IconMoonStars, IconLogout } from '@tabler/icons-react';
-import { useAuth } from '../store/auth.context';
+import { useAuth } from '../hooks';
 
 const resources = [
   { label: 'People', value: 'people' },
@@ -32,7 +31,6 @@ export default function Layout() {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
   const { user, logout } = useAuth();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
