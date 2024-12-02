@@ -26,7 +26,7 @@ export default function ResourceDetail() {
   );
 
   const handleBack = () => {
-    navigate(`/${resourceType}`);
+    navigate(-1);
   };
 
   const handleRelatedClick = (url: string) => {
@@ -81,9 +81,9 @@ export default function ResourceDetail() {
         </Title>
       </Group>
 
-      <Grid>
-        <Grid.Col span={6}>
-          <Card withBorder p="md">
+      <Grid gutter="md">
+        <Grid.Col xs={12} sm={12} md={6}>
+          <Card withBorder p="md" h="100%">
             <Title order={3} size="h4" mb="md">
               Main Information
             </Title>
@@ -100,8 +100,8 @@ export default function ResourceDetail() {
           </Card>
         </Grid.Col>
 
-        <Grid.Col span={6}>
-          <Card withBorder p="md">
+        <Grid.Col xs={12} sm={12} md={6}>
+          <Card withBorder p="md" h="100%">
             <Title order={3} size="h4" mb="md">
               Related Resources
             </Title>
