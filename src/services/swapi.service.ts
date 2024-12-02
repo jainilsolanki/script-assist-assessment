@@ -24,20 +24,26 @@ export interface FilterValue {
   value: string;
 }
 
-export const fetchResourceList = async (
+interface FetchParams {
+  page: number;
+  search?: string;
+  filter?: FilterValue;
+}
+
+export async function fetchResourceList(
   resourceType: string,
-  page = 1,
-  search?: string,
-  filter?: FilterValue
-): Promise<ResourceListResponse> => {
-  const searchParams = new URLSearchParams({
-    page: page.toString(),
-    ...(search && { search }),
-  });
+  params: FetchParams
+): Promise<{ results: SWAPIResource[]; count: number }> {
+  const { page, search, filter } = params;
+  let url = `${BASE_URL}/${resourceType}/?page=${page}`;
   
-  const response = await fetch(`${BASE_URL}/${resourceType}/?${searchParams}`);
+  if (search) {
+    url += `&search=${encodeURIComponent(search)}`;
+  }
+
+  const response = await fetch(url);
   if (!response.ok) {
-    throw new Error('Failed to fetch resource list');
+    throw new Error('Failed to fetch data');
   }
   const data = await response.json();
 

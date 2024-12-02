@@ -12,6 +12,7 @@ import {
   Select,
   Stack,
   Text,
+  Skeleton,
 } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { fetchResourceList, SWAPIResource, FilterOption, FilterValue } from '../services/swapi.service';
@@ -167,13 +168,24 @@ export default function ResourceList() {
     ? { field: filterField, value: filterValue }
     : undefined;
 
-  const { data, isLoading } = useQuery(
-    ['resources', resourceType, page, debouncedSearch, filterField, filterValue],
-    () => fetchResourceList(resourceType, page, debouncedSearch, filter),
+  const {
+    data,
+    isLoading,
+    isFetching,
+  } = useQuery(
+    ['resources', resourceType, page, search, filterField, filterValue],
+    () =>
+      fetchResourceList(resourceType, {
+        page,
+        search: search || undefined,
+        filter: filterField ? { field: filterField, value: filterValue || '' } : undefined,
+      }),
     {
       keepPreviousData: true,
     }
   );
+
+  const isLoadingData = isLoading || isFetching;
 
   const handleRowClick = (resource: SWAPIResource) => {
     const id = resource.url.split('/').filter(Boolean).pop();
@@ -181,8 +193,8 @@ export default function ResourceList() {
   };
 
   return (
-    <Paper p="md" pos="relative">
-      <LoadingOverlay visible={isLoading} />
+    <Paper p="md" radius="lg" withBorder>
+      <LoadingOverlay visible={isLoadingData} />
       <Group position="apart" mb="md">
         <Title order={2} transform="capitalize">
           {resourceType}
@@ -228,7 +240,18 @@ export default function ResourceList() {
           </tr>
         </thead>
         <tbody>
-          {data?.results.length === 0 ? (
+          {isLoadingData ? (
+            Array.from({ length: 10 }).map((_, index) => (
+              <tr key={index}>
+                <td>
+                  <Skeleton height={36} radius="sm" />
+                </td>
+                <td>
+                  <Skeleton height={36} width={100} radius="sm" />
+                </td>
+              </tr>
+            ))
+          ) : data?.results.length === 0 ? (
             <tr>
               <td colSpan={2}>
                 <Text align="center" color="dimmed" py="xl">
@@ -261,17 +284,22 @@ export default function ResourceList() {
         </tbody>
       </Table>
 
-      {data && (
-        <Group position="center" mt="md">
-          <Pagination
-            value={page}
-            onChange={setPage}
-            total={Math.ceil(data.count / 10)}
-            radius="md"
-            withEdges
-          />
-        </Group>
-      )}
+      <Group position="center" mt="md">
+        {isLoadingData ? (
+          <Skeleton height={36} width={300} radius="sm" />
+        ) : (
+          data && (
+            <Pagination
+              value={page}
+              onChange={setPage}
+              total={Math.ceil(data.count / 10)}
+              radius="md"
+              withEdges
+              disabled={isLoadingData}
+            />
+          )
+        )}
+      </Group>
     </Paper>
   );
 }
