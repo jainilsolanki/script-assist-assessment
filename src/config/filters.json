@@ -1,0 +1,122 @@
+{
+  "people": {
+    "gender": {
+      "label": "Gender",
+      "options": [
+        { "value": "male", "label": "Male" },
+        { "value": "female", "label": "Female" },
+        { "value": "n/a", "label": "N/A" }
+      ]
+    },
+    "hair_color": {
+      "label": "Hair Color",
+      "options": [
+        { "value": "black", "label": "Black" },
+        { "value": "brown", "label": "Brown" },
+        { "value": "blonde", "label": "Blonde" },
+        { "value": "red", "label": "Red" },
+        { "value": "white", "label": "White" },
+        { "value": "none", "label": "None" }
+      ]
+    },
+    "eye_color": {
+      "label": "Eye Color",
+      "options": [
+        { "value": "blue", "label": "Blue" },
+        { "value": "brown", "label": "Brown" },
+        { "value": "green", "label": "Green" },
+        { "value": "yellow", "label": "Yellow" },
+        { "value": "red", "label": "Red" }
+      ]
+    }
+  },
+  "planets": {
+    "climate": {
+      "label": "Climate",
+      "options": [
+        { "value": "arid", "label": "Arid" },
+        { "value": "temperate", "label": "Temperate" },
+        { "value": "tropical", "label": "Tropical" },
+        { "value": "frozen", "label": "Frozen" }
+      ]
+    },
+    "terrain": {
+      "label": "Terrain",
+      "options": [
+        { "value": "desert", "label": "Desert" },
+        { "value": "grasslands", "label": "Grasslands" },
+        { "value": "mountains", "label": "Mountains" },
+        { "value": "jungle", "label": "Jungle" },
+        { "value": "ocean", "label": "Ocean" }
+      ]
+    }
+  },
+  "starships": {
+    "manufacturer": {
+      "label": "Manufacturer",
+      "options": [
+        { "value": "sienar fleet systems", "label": "Sienar Fleet Systems" },
+        { "value": "kuat drive yards", "label": "Kuat Drive Yards" },
+        { "value": "corellian engineering corporation", "label": "Corellian Engineering" },
+        { "value": "incom corporation", "label": "Incom Corporation" }
+      ]
+    },
+    "starship_class": {
+      "label": "Starship Class",
+      "options": [
+        { "value": "star destroyer", "label": "Star Destroyer" },
+        { "value": "starfighter", "label": "Starfighter" },
+        { "value": "transport", "label": "Transport" },
+        { "value": "cruiser", "label": "Cruiser" }
+      ]
+    }
+  },
+  "vehicles": {
+    "manufacturer": {
+      "label": "Manufacturer",
+      "options": [
+        { "value": "sienar fleet systems", "label": "Sienar Fleet Systems" },
+        { "value": "kuat drive yards", "label": "Kuat Drive Yards" },
+        { "value": "corellian engineering corporation", "label": "Corellian Engineering" },
+        { "value": "incom corporation", "label": "Incom Corporation" }
+      ]
+    },
+    "vehicle_class": {
+      "label": "Vehicle Class",
+      "options": [
+        { "value": "wheeled", "label": "Wheeled" },
+        { "value": "repulsorcraft", "label": "Repulsorcraft" },
+        { "value": "walker", "label": "Walker" },
+        { "value": "airspeeder", "label": "Airspeeder" }
+      ]
+    }
+  },
+  "species": {
+    "classification": {
+      "label": "Classification",
+      "options": [
+        { "value": "mammal", "label": "Mammal" },
+        { "value": "reptile", "label": "Reptile" },
+        { "value": "amphibian", "label": "Amphibian" },
+        { "value": "sentient", "label": "Sentient" }
+      ]
+    },
+    "designation": {
+      "label": "Designation",
+      "options": [
+        { "value": "sentient", "label": "Sentient" },
+        { "value": "reptilian", "label": "Reptilian" },
+        { "value": "mammalian", "label": "Mammalian" }
+      ]
+    },
+    "language": {
+      "label": "Language",
+      "options": [
+        { "value": "galactic basic", "label": "Galactic Basic" },
+        { "value": "huttese", "label": "Huttese" },
+        { "value": "wookiee", "label": "Wookiee" },
+        { "value": "rodian", "label": "Rodian" }
+      ]
+    }
+  }
+}
