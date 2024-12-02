@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Layout from './components/Layout';
 import ResourceList from './pages/ResourceList';
 import ResourceDetail from './pages/ResourceDetail';
+import PublicRoute from './components/PublicRoute';
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
@@ -14,7 +15,14 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
         <Route
           path="/"
           element={
