@@ -1,20 +1,20 @@
-import { useParams, useNavigate } from 'react-router-dom';
 import {
   Paper,
-  Title,
-  Grid,
-  Card,
   Text,
-  Skeleton,
+  Title,
+  Card,
+  Grid,
   Group,
   Badge,
   Stack,
   Button,
   ActionIcon,
+  Loader,
 } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchResourceDetail, enrichResourceWithRelated } from '../services/swapi.service';
+import { fetchResourceDetail } from '../services/swapi.service';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function ResourceDetail() {
   const { resourceType = 'people', id = '1' } = useParams();
@@ -22,37 +22,26 @@ export default function ResourceDetail() {
 
   const { data: resource, isLoading } = useQuery(
     ['resource', resourceType, id],
-    async () => {
-      const baseUrl = `https://swapi.dev/api/${resourceType}/${id}/`;
-      const resource = await fetchResourceDetail(baseUrl);
-      return enrichResourceWithRelated(resource);
-    },
-    {
-      enabled: !!resourceType && !!id,
-    }
+    () => fetchResourceDetail(`https://swapi.dev/api/${resourceType}/${id}`)
   );
 
   const handleBack = () => {
     navigate(`/${resourceType}`);
   };
 
+  const handleRelatedClick = (url: string) => {
+    const parts = url.split('/').filter(Boolean);
+    const type = parts[parts.length - 2];
+    const id = parts[parts.length - 1];
+    navigate(`/${type}/${id}`);
+  };
+
   if (isLoading) {
     return (
       <Paper p="md">
-        <Group mb="xl">
-          <ActionIcon variant="subtle" onClick={handleBack}>
-            <IconArrowLeft size={18} />
-          </ActionIcon>
-          <Skeleton height={50} sx={{ flex: 1 }} />
+        <Group position="center">
+          <Loader />
         </Group>
-        <Grid>
-          <Grid.Col span={6}>
-            <Skeleton height={200} />
-          </Grid.Col>
-          <Grid.Col span={6}>
-            <Skeleton height={200} />
-          </Grid.Col>
-        </Grid>
       </Paper>
     );
   }
@@ -60,25 +49,12 @@ export default function ResourceDetail() {
   if (!resource) {
     return (
       <Paper p="md">
-        <Group mb="xl">
-          <ActionIcon variant="subtle" onClick={handleBack}>
-            <IconArrowLeft size={18} />
-          </ActionIcon>
+        <Group position="center">
           <Text>Resource not found</Text>
         </Group>
       </Paper>
     );
   }
-
-  const renderValue = (value: any) => {
-    if (Array.isArray(value)) {
-      return value.join(', ');
-    }
-    if (typeof value === 'object' && value !== null) {
-      return JSON.stringify(value);
-    }
-    return value;
-  };
 
   const mainProperties = Object.entries(resource).filter(
     ([key, value]) => 
@@ -89,7 +65,10 @@ export default function ResourceDetail() {
       key !== 'url'
   );
 
-  const relatedResources = resource.related || {};
+  const relatedProperties = Object.entries(resource).filter(
+    ([key, value]) => Array.isArray(value) && value.length > 0 && 
+    ['films', 'species', 'vehicles', 'starships', 'pilots', 'residents', 'people', 'characters', 'planets'].includes(key)
+  );
 
   return (
     <Paper p="md">
@@ -109,12 +88,12 @@ export default function ResourceDetail() {
               Main Information
             </Title>
             <Stack spacing="xs">
-              {mainProperties.map(([key, value]) => (
+              {mainProperties.map(([key, value]: [string, any]) => (
                 <Group key={key} position="apart">
                   <Text weight={500} transform="capitalize">
                     {key.replace('_', ' ')}:
                   </Text>
-                  <Text>{renderValue(value)}</Text>
+                  <Text>{value}</Text>
                 </Group>
               ))}
             </Stack>
@@ -127,14 +106,28 @@ export default function ResourceDetail() {
               Related Resources
             </Title>
             <Stack spacing="xs">
-              {Object.entries(relatedResources).map(([key, value]: [string, any]) => (
+              {relatedProperties.map(([key, urls]: any) => (
                 <div key={key}>
                   <Text weight={500} transform="capitalize" mb="xs">
                     {key.replace('_', ' ')}:
                   </Text>
-                  <Badge size="lg">
-                    {value.name || value.title}
-                  </Badge>
+                  <Group spacing={8}>
+                    {urls.map((url: string, index: number) => {
+                      const parts = url.split('/').filter(Boolean);
+                      const type = parts[parts.length - 2];
+                      const id = parts[parts.length - 1];
+                      return (
+                        <Button 
+                          key={index} 
+                          variant="light" 
+                          size="sm"
+                          onClick={() => handleRelatedClick(url)}
+                        >
+                          {type} #{id}
+                        </Button>
+                      );
+                    })}
+                  </Group>
                 </div>
               ))}
             </Stack>

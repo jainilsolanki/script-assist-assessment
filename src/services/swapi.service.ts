@@ -69,31 +69,23 @@ export const fetchResourceDetail = async (url: string) => {
 };
 
 export const enrichResourceWithRelated = async (resource: any) => {
-  const relatedData: Record<string, any> = {};
+  const relatedData: Record<string, any[]> = {};
   
-  // Get all URL properties that need to be fetched
-  const urlProperties = Object.entries(resource)
-    .filter(([_, value]) => 
-      typeof value === 'string' && 
-      value.startsWith('https://swapi.dev/api/')
-    );
+  // Fields that contain URLs to other resources
+  const relatedFields = ['films', 'species', 'vehicles', 'starships', 'pilots', 'residents', 'people', 'characters', 'planets'];
 
-  // Fetch related resources
-  await Promise.all(
-    urlProperties.map(async ([key, url]) => {
+  for (const field of relatedFields) {
+    if (resource[field] && Array.isArray(resource[field]) && resource[field].length > 0) {
       try {
-        const response = await fetch(url as string);
-        if (response.ok) {
-          relatedData[key] = await response.json();
-        }
+        const results = await Promise.all(
+          resource[field].map((url: string) => fetch(url).then(res => res.json()))
+        );
+        relatedData[field] = results;
       } catch (error) {
-        console.error(`Failed to fetch related resource for ${key}:`, error);
+        console.error(`Error fetching ${field}:`, error);
       }
-    })
-  );
+    }
+  }
 
-  return {
-    ...resource,
-    related: relatedData,
-  };
+  return { ...resource, related: relatedData };
 };
