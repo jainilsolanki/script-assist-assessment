@@ -34,7 +34,7 @@ const resources = [
   { label: 'People', value: 'people', icon: IconUsers },
   { label: 'Planets', value: 'planets', icon: IconPlanet },
   { label: 'Starships', value: 'starships', icon: IconRocket },
-  { label: 'Vehicles', value: 'vehicles', icon: IconCar },
+  { label: 'vehicles', value: 'vehicles', icon: IconCar },
   { label: 'Species', value: 'species', icon: IconAlien },
 ];
 
@@ -65,7 +65,21 @@ export default function Layout() {
                     label={
                       <Group>
                         <Icon size={20} stroke={1.5} />
-                        <Text size="sm">{resource.label}</Text>
+                        <Text
+                          size="sm"
+                          sx={{
+                            fontFamily: "'Star Jedi', sans-serif",
+                            fontSize: '0.9rem',
+                            letterSpacing: '1px',
+                            // color: theme.colors.starwars[4],
+                            '&:hover': {
+                              // color: theme.colors.starwars[2],
+                              textShadow: `0 0 8px ${theme.colors.starwars[2]}80`,
+                            }
+                          }}
+                        >
+                          {resource.label}
+                        </Text>
                       </Group>
                     }
                     onClick={() => {
@@ -96,17 +110,17 @@ export default function Layout() {
                 >
                   <Group>
                     <IconUser size={20} />
-                    <Text size="sm">{user?.username}</Text>
+                    <Text size="sm" sx={{ fontFamily: "'Star Jedi', sans-serif", letterSpacing: '1px', }}>{user?.username}</Text>
                   </Group>
                 </UnstyledButton>
               </Popover.Target>
               <Popover.Dropdown>
                 <Stack spacing="xs">
-                  <Text size="sm" weight={500} mb="xs">
+                  <Text size="sm" weight={500} mb="xs" sx={{ fontFamily: "'Star Jedi', sans-serif", letterSpacing: '1px', }}>
                     {user?.username}
                   </Text>
                   <Group position="apart">
-                    <Text size="sm">Theme</Text>
+                    <Text size="sm" sx={{ fontFamily: "'Star Jedi', sans-serif", letterSpacing: '1px', }}>Theme</Text>
                     <ActionIcon
                       variant="default"
                       onClick={() => toggleColorScheme()}
@@ -122,7 +136,7 @@ export default function Layout() {
                   <UnstyledButton onClick={logout}>
                     <Group>
                       <IconLogout size={16} />
-                      <Text size="sm">Logout</Text>
+                      <Text size="sm" sx={{ fontFamily: "'Star Jedi', sans-serif", letterSpacing: '1px', }}>Logout</Text>
                     </Group>
                   </UnstyledButton>
                 </Stack>

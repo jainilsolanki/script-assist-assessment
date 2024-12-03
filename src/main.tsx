@@ -13,7 +13,16 @@ import PublicRoute from './components/PublicRoute';
 import { PrivateRoute } from './components/PrivateRoute';
 import { theme } from './theme';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // Disable refetch on window focus
+      refetchOnReconnect: false, // Disable refetch on reconnect
+      refetchOnMount: false, // Disable refetch on component mount
+      staleTime: Infinity, // Consider data fresh forever
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {

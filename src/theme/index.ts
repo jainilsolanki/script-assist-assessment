@@ -16,7 +16,6 @@ export const theme: MantineThemeOverride = {
       '#FF6200', // 8
       '#FF4D00', // 9: Darkest orange
     ],
-    // Dark theme colors
     dark: [
       '#C1C2C5', // 0
       '#A6A7AB', // 1
@@ -37,52 +36,26 @@ export const theme: MantineThemeOverride = {
     fontFamily: 'Outfit, sans-serif',
   },
   components: {
-    Button: {
-      styles: (theme) => ({
-        root: {
-          '&:not([data-disabled])': theme.fn.hover({
-            transform: 'translateY(-1px)',
-            transition: 'transform 150ms ease',
-          }),
-        },
-      }),
-    },
-    TextInput: {
-      styles: (theme) => ({
-        input: {
-          '&:focus': {
-            borderColor: theme.colors.starwars[6],
-          },
-        },
-      }),
-    },
-    PasswordInput: {
-      styles: (theme) => ({
-        input: {
-          '&:focus': {
-            borderColor: theme.colors.starwars[6],
-          },
-        },
-      }),
-    },
     Title: {
       styles: (theme) => ({
         root: {
           '&[data-star-wars]': {
-            fontFamily: theme.other.titleFontFamily,
-            color: theme.colors.starwars[6],
-            textShadow: '0 0 10px rgba(255, 232, 31, 0.5)',
+            fontFamily: "'Star Jedi', sans-serif",
+            color: theme.colors.starwars[4],
+            textShadow: `0 0 10px ${theme.colors.starwars[4]}80`,
             letterSpacing: '2px',
-            textTransform: 'uppercase',
             fontSize: 'clamp(1.2rem, 4vw, 2.5rem)',
+            marginTop:'-0.5rem',
             [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-              letterSpacing: '1px',
-              textShadow: '0 0 5px rgba(255, 232, 31, 0.5)',
+              letterSpacing: '1.5px',
+              fontSize: 'clamp(1rem, 3vw, 2rem)',
+              marginTop:'-0.5rem !important',
             },
             [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
-              letterSpacing: '0.5px',
+              letterSpacing: '1px',
+              fontSize: 'clamp(0.9rem, 2.5vw, 1.5rem)',
               wordBreak: 'break-word',
-              hyphens: 'auto',
+              marginTop:'-0.25rem !important',
             }
           }
         }
