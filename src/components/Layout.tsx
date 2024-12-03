@@ -144,7 +144,7 @@ export default function Layout() {
                   mr="xl"
                 />
               </MediaQuery>
-              <Text>Star Wars Explorer</Text>
+              <Title order={2} data-star-wars>Star Wars Explorer</Title>
             </div>
           </div>
         </Header>

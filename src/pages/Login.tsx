@@ -28,6 +28,7 @@ export default function Login() {
           fontFamily: `Greycliff CF, ${theme.fontFamily}`,
           fontWeight: 900,
         })}
+        data-star-wars
       >
         Star Wars Explorer
       </Title>

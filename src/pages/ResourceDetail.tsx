@@ -9,6 +9,9 @@ import {
   Button,
   ActionIcon,
   Loader,
+  Skeleton,
+  Center,
+  Box,
 } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
@@ -37,10 +40,54 @@ export default function ResourceDetail() {
 
   if (isLoading) {
     return (
-      <Paper p="md">
-        <Group position="center">
-          <Loader />
-        </Group>
+      <Paper p="md" pos="relative">
+        <Center sx={{ position: 'absolute', inset: 0, zIndex: 10 }}>
+          <Loader size="lg" />
+        </Center>
+        
+        <Box sx={{ opacity: 0.3 }}>
+          <Group mb="xl" align="center">
+            <ActionIcon variant="subtle" onClick={handleBack}>
+              <IconArrowLeft size={18} />
+            </ActionIcon>
+            <Skeleton height={40} radius="md" width="60%" />
+          </Group>
+
+          <Grid gutter="md">
+            <Grid.Col xs={12} sm={12} md={6}>
+              <Card withBorder p="md" h="100%">
+                <Title order={3} size="h4" mb="md">
+                  Main Information
+                </Title>
+                <Stack spacing="xs">
+                  {[...Array(6)].map((_, index) => (
+                    <Group key={index} position="apart">
+                      <Skeleton height={24} radius="md" width="30%" />
+                      <Skeleton height={24} radius="md" width="60%" />
+                    </Group>
+                  ))}
+                </Stack>
+              </Card>
+            </Grid.Col>
+
+            <Grid.Col xs={12} sm={12} md={6}>
+              <Card withBorder p="md" h="100%">
+                <Title order={3} size="h4" mb="md">
+                  Related Resources
+                </Title>
+                <Stack spacing="xs">
+                  {[...Array(3)].map((_, index) => (
+                    <Group key={index} spacing={8}>
+                      {[...Array(3)].map((_, index) => (
+                        <Skeleton key={index} height={24} radius="xl" width={80} />
+                      ))}
+                    </Group>
+                  ))}
+                </Stack>
+              </Card>
+            </Grid.Col>
+          </Grid>
+        </Box>
       </Paper>
     );
   }

@@ -31,4 +31,30 @@ export const theme: MantineThemeOverride = {
     ],
   },
   primaryColor: 'yellow',
+  components: {
+    Title: {
+      styles: (theme) => ({
+        root: {
+          '&[data-star-wars]': {
+            fontFamily: "'Star Jedi', sans-serif",
+            color: theme.colors.yellow[6],
+            textShadow: '0 0 10px rgba(255, 232, 31, 0.5)',
+            letterSpacing: '2px',
+            textTransform: 'uppercase',
+            fontSize: 'clamp(1.2rem, 4vw, 2.5rem)',
+            lineHeight: 1.4,
+            [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+              letterSpacing: '1px',
+              textShadow: '0 0 5px rgba(255, 232, 31, 0.5)',
+            },
+            [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
+              letterSpacing: '0.5px',
+              wordBreak: 'break-word',
+              hyphens: 'auto',
+            }
+          }
+        }
+      })
+    }
+  },
 };
