@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   TextInput,
   PasswordInput,
@@ -13,123 +13,17 @@ import {
 } from '@mantine/core';
 import { useAuth } from '../hooks/useAuth';
 
-const backgroundImages = [
-  'https://img.goodfon.com/wallpaper/nbig/7/c7/zvezdnye-voyny-star-wars-dart.webp',
-];
+const backgroundImage = 'https://img.goodfon.com/wallpaper/nbig/7/c7/zvezdnye-voyny-star-wars-dart.webp';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { login } = useAuth();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     login(username, password);
   };
-
-  const FormContent = () => (
-    <Container size={400} px="xs">
-      <Title
-        align="center"
-        data-star-wars
-        mb={50}
-        sx={(theme) => ({
-          color: theme.colorScheme === 'dark' ? theme.white : theme.colors.dark[7],
-        })}
-      >
-        Star Wars Explorer
-      </Title>
-
-      <Paper
-        withBorder
-        shadow="md"
-        p={30}
-        radius="md"
-        sx={(theme) => ({
-          backgroundColor: theme.white,
-          borderColor: theme.colors.yellow[6],
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-        })}
-      >
-        <form onSubmit={handleSubmit}>
-          <Stack>
-            <TextInput
-              required
-              label="Username"
-              placeholder="Your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              size="md"
-              styles={(theme) => ({
-                input: {
-                  backgroundColor: theme.white,
-                  borderColor: theme.colors.yellow[6],
-                  '&:focus': {
-                    borderColor: theme.colors.yellow[7],
-                  },
-                },
-                label: {
-                  color: theme.colors.dark[6],
-                  fontWeight: 500,
-                },
-              })}
-            />
-
-            <PasswordInput
-              required
-              label="Password"
-              placeholder="Your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              size="md"
-              styles={(theme) => ({
-                input: {
-                  backgroundColor: theme.white,
-                  borderColor: theme.colors.yellow[6],
-                  '&:focus': {
-                    borderColor: theme.colors.yellow[7],
-                  },
-                },
-                label: {
-                  color: theme.colors.dark[6],
-                  fontWeight: 500,
-                },
-              })}
-            />
-
-            <Button
-              fullWidth
-              mt="xl"
-              size="md"
-              type="submit"
-              variant="filled"
-              sx={(theme) => ({
-                backgroundColor: theme.colors.yellow[6],
-                color: theme.colors.dark[7],
-                fontWeight: 600,
-                '&:hover': {
-                  backgroundColor: theme.colors.yellow[7],
-                },
-              })}
-            >
-              Sign in
-            </Button>
-          </Stack>
-        </form>
-      </Paper>
-    </Container>
-  );
 
   return (
     <Box sx={{ minHeight: '100vh', position: 'relative' }}>
@@ -138,10 +32,9 @@ export default function Login() {
         sx={{
           position: 'fixed',
           inset: 0,
-          backgroundImage: `url(${backgroundImages[currentImageIndex]})`,
+          backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          transition: 'opacity 1s ease-in-out',
           '@media (min-width: 992px)': {
             display: 'none',
           },
@@ -166,7 +59,96 @@ export default function Login() {
             },
           })}
         >
-          <FormContent />
+          <Container size={400} px="xs">
+            <Title
+              align="center"
+              data-star-wars
+              mb={50}
+              sx={(theme) => ({
+                color: theme.colorScheme === 'dark' ? theme.white : theme.colors.dark[7],
+              })}
+            >
+              Star Wars Explorer
+            </Title>
+
+            <Paper
+              withBorder
+              shadow="md"
+              p={30}
+              radius="md"
+              sx={(theme) => ({
+                backgroundColor: theme.white,
+                borderColor: theme.colors.yellow[6],
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              })}
+            >
+              <form onSubmit={handleSubmit}>
+                <Stack>
+                  <TextInput
+                    required
+                    label="Username"
+                    placeholder="Your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    size="md"
+                    styles={(theme) => ({
+                      input: {
+                        backgroundColor: theme.white,
+                        borderColor: theme.colors.yellow[6],
+                        '&:focus': {
+                          borderColor: theme.colors.yellow[7],
+                        },
+                      },
+                      label: {
+                        color: theme.colors.dark[6],
+                        fontWeight: 500,
+                      },
+                    })}
+                  />
+
+                  <PasswordInput
+                    required
+                    label="Password"
+                    placeholder="Your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    size="md"
+                    styles={(theme) => ({
+                      input: {
+                        backgroundColor: theme.white,
+                        borderColor: theme.colors.yellow[6],
+                        '&:focus': {
+                          borderColor: theme.colors.yellow[7],
+                        },
+                      },
+                      label: {
+                        color: theme.colors.dark[6],
+                        fontWeight: 500,
+                      },
+                    })}
+                  />
+
+                  <Button
+                    fullWidth
+                    mt="xl"
+                    size="md"
+                    type="submit"
+                    variant="filled"
+                    sx={(theme) => ({
+                      backgroundColor: theme.colors.yellow[6],
+                      color: theme.colors.dark[7],
+                      fontWeight: 600,
+                      '&:hover': {
+                        backgroundColor: theme.colors.yellow[7],
+                      },
+                    })}
+                  >
+                    Sign in
+                  </Button>
+                </Stack>
+              </form>
+            </Paper>
+          </Container>
         </Grid.Col>
 
         {/* Right side - Image Slideshow (desktop only) */}
@@ -178,20 +160,15 @@ export default function Login() {
         >
           <MediaQuery smallerThan="md" styles={{ display: 'none' }}>
             <Box sx={{ height: '100%' }}>
-              {backgroundImages.map((image, index) => (
-                <Box
-                  key={image}
-                  sx={{
-                    position: 'absolute',
-                    inset: 0,
-                    backgroundImage: `url(${image})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    transition: 'opacity 1s ease-in-out',
-                    opacity: currentImageIndex === index ? 1 : 0,
-                  }}
-                />
-              ))}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundImage: `url(${backgroundImage})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
             </Box>
           </MediaQuery>
         </Grid.Col>
