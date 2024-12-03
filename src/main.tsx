@@ -11,6 +11,7 @@ import ResourceList from './pages/ResourceList';
 import ResourceDetail from './pages/ResourceDetail';
 import PublicRoute from './components/PublicRoute';
 import { PrivateRoute } from './components/PrivateRoute';
+import { theme } from './theme';
 
 const queryClient = new QueryClient();
 
@@ -54,7 +55,7 @@ function Root() {
 
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+      <MantineProvider theme={{ ...theme, colorScheme }} withGlobalStyles withNormalizeCSS>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>
