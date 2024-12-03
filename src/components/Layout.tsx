@@ -31,7 +31,7 @@ import {
 } from '@tabler/icons-react';
 import { useAuth } from '../hooks';
 
-const resources = [
+export const resources = [
   { label: 'People', value: 'people', icon: IconUsers },
   { label: 'Planets', value: 'planets', icon: IconPlanet },
   { label: 'Starships', value: 'starships', icon: IconRocket },
