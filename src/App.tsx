@@ -67,12 +67,7 @@ const router = createBrowserRouter([
           {
             path: ':resourceType/:id',
             element: <ResourceDetail />,
-            loader: ({ params }) => {
-              if (!validResourceTypes.includes(params.resourceType || '')) {
-                throw new Error('Invalid resource type');
-              }
-              return null;
-            },
+            
           },
         ],
       },
