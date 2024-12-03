@@ -15,16 +15,27 @@ import {
   Popover,
   ActionIcon,
   useMantineColorScheme,
+  Title,
 } from '@mantine/core';
-import { IconUser, IconSun, IconMoonStars, IconLogout } from '@tabler/icons-react';
+import {
+  IconUser,
+  IconSun,
+  IconMoonStars,
+  IconLogout,
+  IconUsers,
+  IconPlanet,
+  IconRocket,
+  IconAlien,
+  IconCar,
+} from '@tabler/icons-react';
 import { useAuth } from '../hooks';
 
 const resources = [
-  { label: 'People', value: 'people' },
-  { label: 'Planets', value: 'planets' },
-  { label: 'Starships', value: 'starships' },
-  { label: 'Vehicles', value: 'vehicles' },
-  { label: 'Species', value: 'species' },
+  { label: 'People', value: 'people', icon: IconUsers },
+  { label: 'Planets', value: 'planets', icon: IconPlanet },
+  { label: 'Starships', value: 'starships', icon: IconRocket },
+  { label: 'Vehicles', value: 'vehicles', icon: IconCar },
+  { label: 'Species', value: 'species', icon: IconAlien },
 ];
 
 export default function Layout() {
@@ -33,7 +44,6 @@ export default function Layout() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-
 
   return (
     <AppShell
@@ -47,16 +57,24 @@ export default function Layout() {
         <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 200, lg: 300 }}>
           <Stack justify="space-between" h="100%">
             <Stack>
-              {resources.map((resource) => (
-                <NavLink
-                  key={resource.value}
-                  label={resource.label}
-                  onClick={() => {
-                    navigate(`/${resource.value}`);
-                    setOpened(false);
-                  }}
-                />
-              ))}
+              {resources.map((resource) => {
+                const Icon = resource.icon;
+                return (
+                  <NavLink
+                    key={resource.value}
+                    label={
+                      <Group>
+                        <Icon size={20} stroke={1.5} />
+                        <Text size="sm">{resource.label}</Text>
+                      </Group>
+                    }
+                    onClick={() => {
+                      navigate(`/${resource.value}`);
+                      setOpened(false);
+                    }}
+                  />
+                );
+              })}
             </Stack>
 
             <Popover width={200} position="top" withArrow shadow="md">
