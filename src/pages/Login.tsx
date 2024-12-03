@@ -56,6 +56,7 @@ export default function Login() {
               backgroundColor: 'transparent',
               position: 'relative',
               zIndex: 1,
+              height: '100vh',
             },
           })}
         >
