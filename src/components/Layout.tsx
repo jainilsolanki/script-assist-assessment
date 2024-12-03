@@ -34,10 +34,6 @@ export default function Layout() {
   const { user, logout } = useAuth();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
 
   return (
     <AppShell
@@ -105,7 +101,7 @@ export default function Layout() {
                       )}
                     </ActionIcon>
                   </Group>
-                  <UnstyledButton onClick={handleLogout}>
+                  <UnstyledButton onClick={logout}>
                     <Group>
                       <IconLogout size={16} />
                       <Text size="sm">Logout</Text>
