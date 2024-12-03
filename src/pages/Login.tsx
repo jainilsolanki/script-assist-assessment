@@ -29,6 +29,7 @@ export default function Login() {
     <Box sx={{ minHeight: '100vh', position: 'relative' }}>
       {/* Background Image - Always visible */}
       <Box
+      className='login-image-animation'
         sx={{
           position: 'fixed',
           inset: 0,
@@ -43,9 +44,9 @@ export default function Login() {
 
       <Grid sx={{ minHeight: '100vh' }} m={0} p={0}>
         {/* Left side - Login Form */}
-        <Grid.Col 
-          xs={12} 
-          md={4} 
+        <Grid.Col
+          xs={12}
+          md={4}
           p="xl"
           sx={(theme) => ({
             backgroundColor: theme.white,
@@ -136,11 +137,11 @@ export default function Login() {
                     type="submit"
                     variant="filled"
                     sx={(theme) => ({
-                      backgroundColor: theme.colors.yellow[6],
-                      color: theme.colors.dark[7],
+                      backgroundColor: '#d4af37',
+                      color: 'white',
                       fontWeight: 600,
                       '&:hover': {
-                        backgroundColor: theme.colors.yellow[7],
+                        backgroundColor: '#A68217',
                       },
                     })}
                   >
@@ -153,15 +154,16 @@ export default function Login() {
         </Grid.Col>
 
         {/* Right side - Image Slideshow (desktop only) */}
-        <Grid.Col 
-          xs={0} 
-          md={8} 
-          p={0} 
+        <Grid.Col
+          xs={0}
+          md={8}
+          p={0}
           sx={{ position: 'relative', overflow: 'hidden' }}
         >
           <MediaQuery smallerThan="md" styles={{ display: 'none' }}>
             <Box sx={{ height: '100%' }}>
               <Box
+                className='login-image-animation'
                 sx={{
                   position: 'absolute',
                   inset: 0,

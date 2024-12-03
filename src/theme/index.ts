@@ -1,32 +1,31 @@
 import { MantineThemeOverride } from '@mantine/core';
 
 export const theme: MantineThemeOverride = {
-  colorScheme: 'light',
+  colorScheme: 'dark',
   colors: {
-    // Custom Star Wars inspired colors
     starwars: [
-      '#FFE81F', // 0: Lightest yellow
-      '#FFE200', // 1
-      '#FFD700', // 2
-      '#FFC500', // 3
-      '#FFB300', // 4
-      '#FFA000', // 5
-      '#FF8C00', // 6
-      '#FF7700', // 7
-      '#FF6200', // 8
-      '#FF4D00', // 9: Darkest orange
+      '#D4AF37', // 0: Muted gold
+      '#C5A028', // 1: Antique gold
+      '#B69121', // 2: Aged gold
+      '#A68217', // 3: Deep gold
+      '#997311', // 4: Rich gold
+      '#8B650F', // 5: Bronze gold
+      '#7D570D', // 6: Dark gold
+      '#6F4D0B', // 7: Shadow gold
+      '#614309', // 8: Deep shadow
+      '#533908', // 9: Dark bronze
     ],
     dark: [
-      '#C1C2C5', // 0
-      '#A6A7AB', // 1
-      '#909296', // 2
-      '#5C5F66', // 3
-      '#373A40', // 4
-      '#2C2E33', // 5
-      '#25262B', // 6
-      '#1A1B1E', // 7
-      '#141517', // 8
-      '#101113', // 9
+      '#D1D1D1', // 0
+      '#A1A1A1', // 1
+      '#808080', // 2
+      '#636363', // 3
+      '#484848', // 4
+      '#2D2D2D', // 5
+      '#212121', // 6
+      '#1A1A1A', // 7
+      '#141414', // 8
+      '#0A0A0A', // 9
     ],
   },
   primaryColor: 'starwars',
@@ -41,8 +40,8 @@ export const theme: MantineThemeOverride = {
         root: {
           '&[data-star-wars]': {
             fontFamily: "'Star Jedi', sans-serif",
-            color: theme.colors.starwars[4],
-            textShadow: `0 0 10px ${theme.colors.starwars[4]}80`,
+            color: theme.colors.starwars[2],
+            textShadow: `0 0 8px ${theme.colors.starwars[2]}40`,
             letterSpacing: '2px',
             fontSize: 'clamp(1.2rem, 4vw, 2.5rem)',
             marginTop:'-0.5rem',
