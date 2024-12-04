@@ -12,6 +12,7 @@ import { PrivateRoute } from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 import './style.scss';
 
+// Configure React Query client with optimized settings
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -23,19 +24,20 @@ const queryClient = new QueryClient({
   },
 });
 
-// Get valid resource types from the resources array
+// Get valid resource types from the resources array for route validation
 const validResourceTypes = resources.map(resource => resource.value);
 
+// Define application routes with authentication and validation
 const router = createBrowserRouter([
   {
     path: '/',
-    errorElement: <NotFound />,
+    errorElement: <NotFound />, // Global error boundary for 404s
     children: [
       {
         index: true,
         element: (
           <PrivateRoute>
-            <Navigate to="/people" replace />
+            <Navigate to="/people" replace /> // Redirect root to people page for authenticated users
           </PrivateRoute>
         ),
       },
@@ -43,14 +45,14 @@ const router = createBrowserRouter([
         path: 'login',
         element: (
           <PublicRoute>
-            <Login />
+            <Login /> // Public login page
           </PublicRoute>
         ),
       },
       {
         element: (
           <PrivateRoute>
-            <Layout />
+            <Layout /> // Protected layout wrapper
           </PrivateRoute>
         ),
         children: [
@@ -58,6 +60,7 @@ const router = createBrowserRouter([
             path: ':resourceType',
             element: <ResourceList />,
             loader: ({ params }) => {
+              // Validate resource type parameter
               if (!validResourceTypes.includes(params.resourceType || '')) {
                 throw new Error('Invalid resource type');
               }
@@ -67,7 +70,6 @@ const router = createBrowserRouter([
           {
             path: ':resourceType/:id',
             element: <ResourceDetail />,
-            
           },
         ],
       },
@@ -75,6 +77,7 @@ const router = createBrowserRouter([
   },
 ]);
 
+// Main App component with theme and query providers
 function App() {
   const { colorScheme, toggleColorScheme } = useThemeStore();
 

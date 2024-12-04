@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import filtersConfig from '../config/filters.json';
 
+/**
+ * Type definitions for filter configuration
+ */
 type FilterOption = {
   value: string;
   label: string;
@@ -19,7 +22,13 @@ type FiltersConfig = {
   [key: string]: ResourceFilters;
 };
 
+/**
+ * Custom hook for managing resource filters
+ * Provides filter state management and data filtering functionality
+ * @param resourceType - The type of resource to filter (e.g., 'people', 'planets')
+ */
 export function useFilters(resourceType: string) {
+  // State for tracking active filters
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
 
   // Reset filters when resource type changes
@@ -30,7 +39,10 @@ export function useFilters(resourceType: string) {
   // Get available filters for the current resource type
   const availableFilters = (filtersConfig as FiltersConfig)[resourceType] || {};
 
-  // Update a single filter
+  /**
+   * Updates a single filter value
+   * Removes filter if value is empty
+   */
   const updateFilter = (field: string, value: string) => {
     setActiveFilters((prev) => {
       if (!value) {
@@ -41,12 +53,15 @@ export function useFilters(resourceType: string) {
     });
   };
 
-  // Clear all filters
+  // Clear all active filters
   const clearFilters = () => {
     setActiveFilters({});
   };
 
-  // Filter the data based on active filters
+  /**
+   * Filters data based on active filters
+   * Performs case-insensitive comparison
+   */
   const filterData = <T extends Record<string, any>>(data: T[]): T[] => {
     if (Object.keys(activeFilters).length === 0) return data;
 

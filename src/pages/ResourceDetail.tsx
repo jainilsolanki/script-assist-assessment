@@ -18,19 +18,28 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchResourceDetail } from '../services/swapi.service';
 import { useNavigate, useParams } from 'react-router-dom';
 
+/**
+ * ResourceDetail Component
+ * Displays detailed information about a specific Star Wars resource
+ * Handles loading states and dynamic data rendering
+ */
 export default function ResourceDetail() {
+  // Extract resource type and ID from URL parameters
   const { resourceType = 'people', id = '1' } = useParams();
   const navigate = useNavigate();
 
+  // Fetch resource data using React Query
   const { data: resource, isLoading } = useQuery(
     ['resource', resourceType, id],
     () => fetchResourceDetail(`https://swapi.dev/api/${resourceType}/${id}`)
   );
 
+  // Navigation handler for back button
   const handleBack = () => {
     navigate(-1);
   };
 
+  // Navigation handler for related resources
   const handleRelatedClick = (url: string) => {
     const parts = url.split('/').filter(Boolean);
     const type = parts[parts.length - 2];
@@ -38,6 +47,7 @@ export default function ResourceDetail() {
     navigate(`/${type}/${id}`);
   };
 
+  // Loading state UI
   if (isLoading) {
     return (
       <Paper p="md" pos="relative">
@@ -92,6 +102,7 @@ export default function ResourceDetail() {
     );
   }
 
+  // Render resource not found message
   if (!resource) {
     return (
       <Paper p="md">
@@ -102,6 +113,7 @@ export default function ResourceDetail() {
     );
   }
 
+  // Extract main and related properties from resource data
   const mainProperties = Object.entries(resource).filter(
     ([key, value]) => 
       typeof value !== 'object' && 
@@ -119,8 +131,10 @@ export default function ResourceDetail() {
       (key === 'homeworld' && value)
   );
 
+  // Render resource details
   return (
     <Paper p="md">
+      {/* Header with back navigation */}
       <Group mb="xl" align="center">
         <ActionIcon variant="subtle" onClick={handleBack}>
           <IconArrowLeft size={18} />

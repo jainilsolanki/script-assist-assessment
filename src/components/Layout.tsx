@@ -31,6 +31,7 @@ import {
 } from '@tabler/icons-react';
 import { useAuth } from '../hooks';
 
+// Define available navigation resources with their icons
 export const resources = [
   { label: 'People', value: 'people', icon: IconUsers },
   { label: 'Planets', value: 'planets', icon: IconPlanet },
@@ -39,6 +40,7 @@ export const resources = [
   { label: 'Species', value: 'species', icon: IconAlien },
 ];
 
+// Main layout component with navigation and user controls
 export default function Layout() {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
@@ -57,6 +59,7 @@ export default function Layout() {
       navbar={
         <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 200, lg: 300 }}>
           <Stack justify="space-between" h="100%">
+            {/* Navigation Links */}
             <Stack>
               {resources.map((resource) => {
                 const Icon = resource.icon;
@@ -83,14 +86,16 @@ export default function Layout() {
                     }
                     onClick={() => {
                       navigate(`/${resource.value}`);
-                      setOpened(false);
+                      setOpened(false); // Close mobile menu after navigation
                     }}
                   />
                 );
               })}
             </Stack>
 
+            {/* User Controls and Footer */}
             <Stack spacing="sm">
+              {/* User Menu Popover */}
               <Popover width={200} position="top" withArrow shadow="md">
                 <Popover.Target>
                   <UnstyledButton
@@ -143,6 +148,7 @@ export default function Layout() {
                 </Popover.Dropdown>
               </Popover>
 
+              {/* Creator Attribution */}
               <Paper
                 component="a"
                 href="https://jainil-solanki.vercel.app/"
@@ -195,6 +201,7 @@ export default function Layout() {
         <Header height={{ base: 50, md: 70 }} p="md">
           <div style={{ display: 'flex', alignItems: 'center', height: '100%', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
+              {/* Mobile Menu Toggle */}
               <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
                 <Burger
                   opened={opened}
@@ -204,7 +211,15 @@ export default function Layout() {
                   mr="xl"
                 />
               </MediaQuery>
-              <Title order={2} data-star-wars>Star Wars Explorer</Title>
+              {/* App Title with Navigation */}
+              <Title 
+                order={2} 
+                data-star-wars 
+                onClick={() => navigate('/people')} 
+                sx={{ cursor: 'pointer' }}
+              >
+                Star Wars Explorer
+              </Title>
             </div>
           </div>
         </Header>

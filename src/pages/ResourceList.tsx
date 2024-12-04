@@ -18,15 +18,24 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchResourceList, SWAPIResource } from '../services/swapi.service';
 import { useFilters } from '../hooks';
 
+/**
+ * ResourceList Component
+ * Displays a paginated list of Star Wars resources with search and filtering capabilities
+ * Handles loading states, empty states, and resource navigation
+ */
 export default function ResourceList() {
+  // URL parameters and navigation setup
   const { resourceType = 'people' } = useParams();
   const navigate = useNavigate();
+
+  // State management for pagination, search, and filters
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [filterField, setFilterField] = useState<string | null>(null);
   const [filterValue, setFilterValue] = useState<string | null>(null);
 
+  // Get filter configuration and utility functions
   const {
     availableFilters,
     filterData,
@@ -44,12 +53,13 @@ export default function ResourceList() {
     setFilterValue(null);
   }, [filterField]);
 
-  // Debounce search
+  // Debounce search to prevent excessive API calls
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(search), 500);
     return () => clearTimeout(timer);
   }, [search]);
 
+  // Fetch resource data with React Query
   const {
     data,
     isLoading,
@@ -68,12 +78,13 @@ export default function ResourceList() {
 
   const isLoadingData = isLoading || isFetching;
 
+  // Handle navigation to resource detail page
   const handleRowClick = (resource: SWAPIResource) => {
     const id = resource.url.split('/').filter(Boolean).pop();
     navigate(`/${resourceType}/${id}`);
   };
 
-  // Apply client-side filtering
+  // Apply client-side filtering to results
   const filteredResults = data?.results ? filterData(data.results.filter(item => {
     if (!filterField || !filterValue) return true;
     const itemValue = (item as any)[filterField]?.toString().toLowerCase();
@@ -86,12 +97,16 @@ export default function ResourceList() {
 
   return (
     <Paper p="md" radius="lg" withBorder>
+      {/* Loading overlay for data fetching */}
       <LoadingOverlay visible={isLoadingData} />
+
+      {/* Header with title and search/filter controls */}
       <Group position="apart" mb="md">
         <Title order={2} transform="capitalize">
           {resourceType}
         </Title>
         <Group align="flex-start">
+          {/* Search input */}
           <TextInput
             label="Search"
             placeholder="Search..."
@@ -100,6 +115,7 @@ export default function ResourceList() {
             style={{ width: 300 }}
           />
           <Stack spacing="xs">
+            {/* Filter field selector */}
             <Select
               label="Filter by"
               placeholder="Select field"
@@ -112,6 +128,7 @@ export default function ResourceList() {
               clearable
               style={{ width: 200 }}
             />
+            {/* Filter value selector - only shown when field is selected */}
             {filterField && availableFilters[filterField] && (
               <Select
                 placeholder="Select value"
@@ -126,6 +143,7 @@ export default function ResourceList() {
         </Group>
       </Group>
 
+      {/* Resource data table */}
       <Table striped highlightOnHover>
         <thead>
           <tr>
@@ -134,6 +152,7 @@ export default function ResourceList() {
           </tr>
         </thead>
         <tbody>
+          {/* Loading state with skeleton rows */}
           {isLoadingData ? (
             Array.from({ length: 10 }).map((_, index) => (
               <tr key={index}>
@@ -146,6 +165,7 @@ export default function ResourceList() {
               </tr>
             ))
           ) : filteredResults.length === 0 ? (
+            // Empty state message
             <tr>
               <td colSpan={2}>
                 <Text align="center" color="dimmed" py="xl">
@@ -154,6 +174,7 @@ export default function ResourceList() {
               </td>
             </tr>
           ) : (
+            // Resource list with clickable rows
             filteredResults.map((resource) => (
               <tr
                 key={resource.url}
@@ -178,6 +199,7 @@ export default function ResourceList() {
         </tbody>
       </Table>
 
+      {/* Pagination controls */}
       <Group position="center" mt="md">
         {isLoadingData ? (
           <Skeleton height={36} width={300} radius="sm" />

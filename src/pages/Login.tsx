@@ -13,13 +13,27 @@ import {
 } from '@mantine/core';
 import { useAuth } from '../hooks/useAuth';
 
+/**
+ * URL for the Star Wars themed background image
+ * Used in both mobile and desktop layouts
+ */
 const backgroundImage = 'https://img.goodfon.com/wallpaper/nbig/7/c7/zvezdnye-voyny-star-wars-dart.webp';
 
+/**
+ * Login Component
+ * Provides authentication interface with responsive design
+ * Features split-screen layout on desktop and full-screen background on mobile
+ */
 export default function Login() {
+  // Form state management
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
 
+  /**
+   * Handle form submission
+   * Prevents default form behavior and triggers authentication
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     login(username, password);
@@ -27,9 +41,9 @@ export default function Login() {
 
   return (
     <Box sx={{ minHeight: '100vh', position: 'relative' }}>
-      {/* Background Image - Always visible */}
+      {/* Background Image - Mobile only */}
       <Box
-      className='login-image-animation'
+        className='login-image-animation'
         sx={{
           position: 'fixed',
           inset: 0,
@@ -62,6 +76,7 @@ export default function Login() {
           })}
         >
           <Container size={400} px="xs">
+            {/* Application Title */}
             <Title
               align="center"
               data-star-wars
@@ -73,6 +88,7 @@ export default function Login() {
               Star Wars Explorer
             </Title>
 
+            {/* Login Form Card */}
             <Paper
               withBorder
               shadow="md"
@@ -86,6 +102,7 @@ export default function Login() {
             >
               <form onSubmit={handleSubmit}>
                 <Stack>
+                  {/* Username Input */}
                   <TextInput
                     required
                     label="Username"
@@ -108,6 +125,7 @@ export default function Login() {
                     })}
                   />
 
+                  {/* Password Input */}
                   <PasswordInput
                     required
                     label="Password"
@@ -130,6 +148,7 @@ export default function Login() {
                     })}
                   />
 
+                  {/* Submit Button */}
                   <Button
                     fullWidth
                     mt="xl"
@@ -153,7 +172,7 @@ export default function Login() {
           </Container>
         </Grid.Col>
 
-        {/* Right side - Image Slideshow (desktop only) */}
+        {/* Right side - Background Image (desktop only) */}
         <Grid.Col
           xs={0}
           md={8}
