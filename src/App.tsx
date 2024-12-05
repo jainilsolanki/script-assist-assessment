@@ -31,28 +31,32 @@ const validResourceTypes = resources.map(resource => resource.value);
 const router = createBrowserRouter([
   {
     path: '/',
-    errorElement: <NotFound />, // Global error boundary for 404s
+    // Global error boundary for 404s
+    errorElement: <NotFound />, 
     children: [
       {
         index: true,
         element: (
+          // Redirect root to people page for authenticated users
           <PrivateRoute>
-            <Navigate to="/people" replace /> // Redirect root to people page for authenticated users
+            <Navigate to="/people" replace />
           </PrivateRoute>
         ),
       },
       {
         path: 'login',
         element: (
+          // Public login page
           <PublicRoute>
-            <Login /> // Public login page
+            <Login />
           </PublicRoute>
         ),
       },
       {
         element: (
+          // Protected layout wrapper
           <PrivateRoute>
-            <Layout /> // Protected layout wrapper
+            <Layout />
           </PrivateRoute>
         ),
         children: [
