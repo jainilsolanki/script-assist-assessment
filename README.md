@@ -52,8 +52,7 @@ The Star Wars Explorer is an interactive web application that allows users to ex
 
 <hr/>
 
-[Screencast from 05-12-24 10:45:41 AM IST.webm](https://github.com/user-attachments/assets/9ebdc011-847a-4149-ac2a-22ff6e257e16)
-
+https://github.com/user-attachments/assets/20c4cea3-5ade-467f-bf6b-b00834e07331
 
 ### Previews
 
