@@ -7,18 +7,6 @@ export interface SWAPIResource {
   [key: string]: any;
 }
 
-export interface ResourceListResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: SWAPIResource[];
-}
-
-export interface FilterOption {
-  value: string;
-  label: string;
-}
-
 export interface FilterValue {
   field: string;
   value: string;
@@ -36,7 +24,7 @@ export async function fetchResourceList(
 ): Promise<{ results: SWAPIResource[]; count: number }> {
   const { page, search, filter } = params;
   let url = `${BASE_URL}/${resourceType}/?page=${page}`;
-  
+
   if (search) {
     url += `&search=${encodeURIComponent(search)}`;
   }
@@ -66,26 +54,4 @@ export const fetchResourceDetail = async (url: string) => {
     throw new Error('Failed to fetch resource detail');
   }
   return response.json();
-};
-
-export const enrichResourceWithRelated = async (resource: any) => {
-  const relatedData: Record<string, any[]> = {};
-  
-  // Fields that contain URLs to other resources
-  const relatedFields = ['films', 'species', 'vehicles', 'starships', 'pilots', 'residents', 'people', 'characters', 'planets'];
-
-  for (const field of relatedFields) {
-    if (resource[field] && Array.isArray(resource[field]) && resource[field].length > 0) {
-      try {
-        const results = await Promise.all(
-          resource[field].map((url: string) => fetch(url).then(res => res.json()))
-        );
-        relatedData[field] = results;
-      } catch (error) {
-        console.error(`Error fetching ${field}:`, error);
-      }
-    }
-  }
-
-  return { ...resource, related: relatedData };
 };
