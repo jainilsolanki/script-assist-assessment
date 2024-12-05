@@ -20,6 +20,8 @@ const queryClient = new QueryClient({
       refetchOnReconnect: false,
       refetchOnMount: false,
       staleTime: Infinity,
+      retry: true,
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
     },
   },
 });
