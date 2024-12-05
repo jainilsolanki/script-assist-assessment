@@ -20,7 +20,8 @@ The Star Wars Explorer is an interactive web application that allows users to ex
 1. Clone github repo.
 2. Open directory in terminal or your favourite editor and run the following command `npm i`.
 3. After installing dependencies, run the following command `npm run dev` to start the development server.
-4. Enter any credentials to login and start using the app.
+4. Go to [http://localhost:port](http://localhost:port).
+5. Enter any credentials to login and start using the app.
 
 ### Packages used
 
