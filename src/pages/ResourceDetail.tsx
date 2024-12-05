@@ -14,7 +14,7 @@ import {
   Box,
 } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueries } from '@tanstack/react-query';
 import { fetchResourceDetail } from '../services/swapi.service';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -46,6 +46,27 @@ export default function ResourceDetail() {
     const id = parts[parts.length - 1];
     navigate(`/${type}/${id}`);
   };
+
+  // Extract related URLs for parallel fetching
+  const relatedUrls = resource ? Object.entries(resource)
+    .filter(([key, value]) => 
+      (Array.isArray(value) && value.length > 0 && 
+      ['films', 'species', 'vehicles', 'starships', 'pilots', 'residents', 'people', 'characters', 'planets'].includes(key)) ||
+      (key === 'homeworld' && value)
+    )
+    .flatMap(([_, urls]) => Array.isArray(urls) ? urls : [urls])
+    : [];
+
+  // Fetch all related resources in parallel
+  const relatedQueries = useQueries({
+    queries: relatedUrls.map(url => ({
+      queryKey: ['related', url],
+      queryFn: () => fetch(url).then(res => res.json()),
+      staleTime: Infinity,
+    })),
+  });
+
+  const isLoadingRelated = relatedQueries.some(query => query.isLoading);
 
   // Loading state UI
   if (isLoading) {
@@ -131,6 +152,14 @@ export default function ResourceDetail() {
       (key === 'homeworld' && value)
   );
 
+  // Create a map of URLs to their fetched data
+  const relatedDataMap = new Map();
+  relatedQueries.forEach((query, index) => {
+    if (query.data) {
+      relatedDataMap.set(relatedUrls[index], query.data);
+    }
+  });
+
   // Render resource details
   return (
     <Paper p="md">
@@ -175,30 +204,32 @@ export default function ResourceDetail() {
                     {key.replace('_', ' ')}:
                   </Text>
                   <Group spacing={8}>
-                    {Array.isArray(urls) ? (
-                      urls.map((url: string, index: number) => {
-                        const parts = url.split('/').filter(Boolean);
-                        const type = parts[parts.length - 2];
-                        const id = parts[parts.length - 1];
-                        return (
-                          <Button 
-                            key={index} 
-                            variant="light" 
-                            size="sm"
-                            onClick={() => handleRelatedClick(url)}
-                          >
-                            {type} #{id}
-                          </Button>
-                        );
-                      })
+                    {isLoadingRelated ? (
+                      <Skeleton height={24} radius="xl" width={120} />
                     ) : (
-                      <Button 
-                        variant="light" 
-                        size="sm"
-                        onClick={() => handleRelatedClick(urls)}
-                      >
-                        {urls.split('/').filter(Boolean).slice(-2)[0]} #{urls.split('/').filter(Boolean).slice(-1)[0]}
-                      </Button>
+                      Array.isArray(urls) ? (
+                        urls.map((url: string) => {
+                          const relatedData = relatedDataMap.get(url);
+                          return (
+                            <Button 
+                              key={url} 
+                              variant="light" 
+                              size="sm"
+                              onClick={() => handleRelatedClick(url)}
+                            >
+                              {relatedData?.name || relatedData?.title || 'Loading...'}
+                            </Button>
+                          );
+                        })
+                      ) : (
+                        <Button 
+                          variant="light" 
+                          size="sm"
+                          onClick={() => handleRelatedClick(urls)}
+                        >
+                          {relatedDataMap.get(urls)?.name || relatedDataMap.get(urls)?.title || 'Loading...'}
+                        </Button>
+                      )
                     )}
                   </Group>
                 </div>
