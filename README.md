@@ -1,6 +1,6 @@
-# script-assist-assessment
+# Jainil Solanki - Script Assist Assessment
 
-# Jainil Solanki - Frontend Developer (Star Wars Explorer)
+# Star Wars Explorer
 
 #### Node version used: `v19.8.1`
 
@@ -50,6 +50,8 @@ The Star Wars Explorer is an interactive web application that allows users to ex
 ### Video Demo
 
 <hr/>
+
+[Screencast from 05-12-24 10:45:41 AM IST.webm](https://github.com/user-attachments/assets/9ebdc011-847a-4149-ac2a-22ff6e257e16)
 
 
 ### Previews
