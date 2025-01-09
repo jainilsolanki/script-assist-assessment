@@ -1,4 +1,4 @@
-const BASE_URL = 'https://swapi.dev/api';
+const BASE_URL = 'https://swapi.py4e.com/api';
 
 export interface SWAPIResource {
   name?: string;
