@@ -31,7 +31,7 @@ export default function ResourceDetail() {
   // Fetch resource data using React Query
   const { data: resource, isLoading } = useQuery(
     ['resource', resourceType, id],
-    () => fetchResourceDetail(`https://swapi.dev/api/${resourceType}/${id}`)
+    () => fetchResourceDetail(`https://swapi.py4e.com/api/${resourceType}/${id}`)
   );
 
   // Navigation handler for back button
